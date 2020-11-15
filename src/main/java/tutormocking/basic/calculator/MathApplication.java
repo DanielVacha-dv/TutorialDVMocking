@@ -38,7 +38,11 @@ public class MathApplication {
      * @return the double of subtract
      */
     public double subtract(double input1, double input2){
-        return calcService.subtract(input1, input2);
+        if (input1>input2) {
+            return calcService.subtract(input1, input2);
+        } else {
+            return calcService.subtract(input2, input1);
+        }
     }
 
     /**
