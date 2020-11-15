@@ -7,6 +7,6 @@ Maven project nothing special
 
 ###Description
 ##Packages
-[Package tutormocking calculator](src/main/java/tutormocking/calculator/Calculator.md)
+[Package tutormocking calculator](src/main/java/tutormocking/basic/calculator/Calculator.md)
 
 ## Usage
