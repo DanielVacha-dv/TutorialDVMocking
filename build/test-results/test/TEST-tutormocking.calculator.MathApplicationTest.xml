@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tutormocking.calculator.MathApplicationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-15T10:23:43" hostname="NB0203" time="0.13">
+  <properties/>
+  <testcase name="testAdd" classname="tutormocking.calculator.MathApplicationTest" time="0.13"/>
+  <system-out><![CDATA[rule applied. note: di do pr
+add=30.0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
