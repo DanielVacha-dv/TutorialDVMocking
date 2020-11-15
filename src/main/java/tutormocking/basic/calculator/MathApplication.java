@@ -1,4 +1,4 @@
-package tutormocking.calculator;
+package tutormocking.basic.calculator;
 
 /**
  * The type Math application.

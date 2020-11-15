@@ -1,8 +1,8 @@
-package tutormocking.calculator;
+package tutormocking.basic.calculator;
 
 import org.junit.Assert;
 import org.junit.Rule;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
@@ -10,9 +10,7 @@ import org.mockito.junit.MockitoRule;
 
 import static org.mockito.Mockito.when;
 
-
 public class MathApplicationTest {
-
 
     //Pole s poznámkami musí být veřejná, nestatická a podtypy TestRule nebo MethodRule
     @Rule

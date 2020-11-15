@@ -1,4 +1,4 @@
-package tutormocking.calculator;
+package tutormocking.basic.calculator;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
