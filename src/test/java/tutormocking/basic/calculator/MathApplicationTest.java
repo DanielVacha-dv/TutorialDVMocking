@@ -29,8 +29,8 @@ public class MathApplicationTest {
      * The constant rule.
      * Pole s poznámkami musí být veřejná, nestatická a podtypy TestRule nebo MethodRule
      */
-//    @Rule
-//    public MockitoRule rule = MockitoJUnit.rule();
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
 
     /**
      * The Rule 2.
@@ -79,7 +79,6 @@ public class MathApplicationTest {
     @Test
     public void subTract() {
         when(calcService.subtract(20.0, 10.0)).thenReturn(10.00);
-        when(calcService.subtract(10.0, 20.0)).thenReturn(10.00);
         double subtract = mathApplication.subtract(10.0, 20.0);
         LOGGER.info("subtract  method");
         Assert.assertEquals(10, subtract, 0);
