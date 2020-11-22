@@ -3,11 +3,9 @@ package tutormocking.basic.calculator;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
 
 import java.util.logging.Logger;
@@ -20,7 +18,7 @@ import static org.mockito.Mockito.*;
  *
  * @RunWith attaches a runner with the test class to initialize the test data
  */
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class MathApplicationTest {
 
     Logger LOGGER = Logger.getLogger(MathApplicationTest.class.getName());
@@ -47,7 +45,7 @@ public class MathApplicationTest {
 
 
     /**
-     * objekt do ktereho budou vkladany mockovane objekty abz odstranili jeho zavislost
+     * objekt do ktereho budou vkladany mockovane objekty aby odstranili jeho zavislost
      * na vnejsim svete
      * The Math application.
      */
@@ -68,10 +66,9 @@ public class MathApplicationTest {
         LOGGER.info("add method");
         // overeni vysledku
         Assert.assertEquals(30.0, add, 0);
-
-        //        overeni ze se volala metoda add objektu calcService s parametry 10 a 40 bude fail
+        //overeni ze se volala metoda add objektu calcService s parametry 10 a 40 bude fail
 //        verify(calcService).add(10.0, 40);
-        //        overeni ze se volala metoda add objektu calcService s parametry 10 a 20 bude pass
+        //overeni ze se volala metoda add objektu calcService s parametry 10 a 20 bude pass
         verify(calcService).add(10.0, 20);
         LOGGER.info("metod end");
     }
