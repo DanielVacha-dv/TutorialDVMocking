@@ -1,9 +1,10 @@
 package tutormocking.basic.resultset;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,16 +24,34 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 
 
+/**
+ * The type My connection test.
+ */
 public class MyConnectionTest {
-    // aktualni list of map pro jeden executeQuery, ten muze mit vicero zaznamu
+    /**
+     * The Actual result row list of map.
+     */
+// aktualni list of map pro jeden executeQuery, ten muze mit vicero zaznamu
     List<Map> actualResultRowListOfMap = new ArrayList<>();
-    // list  vsechny  executeQuery s jednotlivymi resultRowListOfMap
+    /**
+     * The Statement list.
+     */
+// list  vsechny  executeQuery s jednotlivymi resultRowListOfMap
     List<List> statementList = new ArrayList<>();
-    //    //prave uzivany resultset
+    /**
+     * The Usedresult 1 rows.
+     */
+//    //prave uzivany resultset
     MockRowRS usedresult1Rows = new MockRowRS();
-    // atomicky citac zaznamu v resultset
+    /**
+     * The Idx.
+     */
+// atomicky citac zaznamu v resultset
     AtomicInteger idx = new AtomicInteger(0);
 
+    /**
+     * The Rule.
+     */
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
@@ -49,6 +68,8 @@ public class MyConnectionTest {
 
     /**
      * vygeneruje data pro resultset s 1 radkem
+     *
+     * @return the list
      */
     List<Map> initFirstRowsRS() {
         List<Map> resultRowListOfMapLoc = new ArrayList<>();
@@ -61,6 +82,8 @@ public class MyConnectionTest {
 
     /**
      * vygeneruje data pro resultset s 2radky
+     *
+     * @return the list
      */
     List<Map> init2RowsRS() {
         List<Map> resultRowListOfMapLoc = new ArrayList<>();
@@ -75,19 +98,23 @@ public class MyConnectionTest {
         return resultRowListOfMapLoc;
     }
 
-
-    @BeforeEach
+    /**
+     * nepouziva se jupiter api  pri pouziti testu vzika chyba
+     */
+    @Before
     public void beforeTest() {
         statementList = new ArrayList<>(Arrays.asList(initFirstRowsRS(), init2RowsRS()));
-        resultSet = Mockito.mock(ResultSet.class);
-        statement = Mockito.mock(Statement.class);
-        myConnection = Mockito.spy(new MyConnection());
         myConnection.setRs(resultSet);
         myConnection.setStatement(statement);
     }
 
+
+    /**
+     * Before method.  nastavi chovani mock pro konkretni test
+     *
+     * @throws SQLException the sql exception
+     */
     public void beforeMethod() throws SQLException {
-        //  when(testableClass.getResultSet()).thenReturn(resultSet);
         idx = new AtomicInteger(0);
         final AtomicInteger idStatements = new AtomicInteger(0);
         MockRowRS resultRows = new MockRowRS();
@@ -123,23 +150,45 @@ public class MyConnectionTest {
         }).when(resultSet).getString(anyString());
     }
 
+    /**
+     * The type Mock row rs.
+     */
     static class MockRowRS {
+        /**
+         * The Hash map.
+         */
         Map<String, String> hashMap = new HashMap<>();
 
+        /**
+         * Sets current hash map data.
+         *
+         * @param hashMap the hash map
+         */
         public void setCurrentHashMapData(Map<String, String> hashMap) {
             this.hashMap = hashMap;
         }
 
+        /**
+         * Gets column.
+         *
+         * @param key the key
+         * @return the column
+         */
         public String getColumn(String key) {
             return hashMap.get(key);
         }
     }
 
 
+    /**
+     * Test main.
+     *
+     * @throws SQLException the sql exception
+     */
     @Test
     public void testMain() throws SQLException {
         beforeMethod();
-      boolean result=  myConnection.doAction();
+        boolean result = myConnection.doAction();
         Assert.assertTrue(result);
     }
 }
