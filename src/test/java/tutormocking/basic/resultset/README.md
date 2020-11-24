@@ -1,0 +1,1 @@
+jupiter api je mozne pouzit ale v File-settings-Build execution deployment-gradle-Run test using zvolit Intelij Idea 

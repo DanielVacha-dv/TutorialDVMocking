@@ -1,14 +1,10 @@
 package tutormocking.basic.resultset;
 
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -52,8 +48,8 @@ public class MyConnectionTest {
     /**
      * The Rule.
      */
-    @Rule
-    public MockitoRule rule = MockitoJUnit.rule();
+//    @Rule
+//    public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
     private ResultSet resultSet;
@@ -101,8 +97,9 @@ public class MyConnectionTest {
     /**
      * nepouziva se jupiter api  pri pouziti testu vzika chyba
      */
-    @Before
+    @BeforeEach
     public void beforeTest() {
+        MockitoAnnotations.initMocks(this);
         statementList = new ArrayList<>(Arrays.asList(initFirstRowsRS(), init2RowsRS()));
         myConnection.setRs(resultSet);
         myConnection.setStatement(statement);
@@ -189,6 +186,6 @@ public class MyConnectionTest {
     public void testMain() throws SQLException {
         beforeMethod();
         boolean result = myConnection.doAction();
-        Assert.assertTrue(result);
+        org.junit.jupiter.api.Assertions.assertEquals(true,result);
     }
 }
