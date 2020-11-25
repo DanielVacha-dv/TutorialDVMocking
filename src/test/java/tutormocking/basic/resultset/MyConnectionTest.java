@@ -1,13 +1,14 @@
 package tutormocking.basic.resultset;
 
-import org.junit.Rule;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.mockito.stubbing.Answer;
 
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
@@ -24,6 +26,9 @@ import static org.mockito.Mockito.doAnswer;
  * The type My connection test.
  */
 public class MyConnectionTest {
+
+
+    private static Logger LOGGER = Logger.getLogger(MyConnectionTest.class.getName());
     /**
      * The Actual result row list of map.
      */
@@ -32,24 +37,19 @@ public class MyConnectionTest {
     /**
      * The Statement list.
      */
-// list  vsechny  executeQuery s jednotlivymi resultRowListOfMap
+    // list  vsechny  executeQuery s jednotlivymi resultRowListOfMap
+    // da se rict ze je to tabulka  kde jeden zaznam obsahuje dalsi tabulku
     List<List> statementList = new ArrayList<>();
     /**
      * The Usedresult 1 rows.
      */
-//    //prave uzivany resultset
-    MockRowRS usedresult1Rows = new MockRowRS();
+//    prave uzivany resultset
+//    MockRowRS usedresult1Rows = new MockRowRS();
     /**
      * The Idx.
      */
 // atomicky citac zaznamu v resultset
     AtomicInteger idx = new AtomicInteger(0);
-
-    /**
-     * The Rule.
-     */
-//    @Rule
-//    public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
     private ResultSet resultSet;
@@ -61,6 +61,10 @@ public class MyConnectionTest {
     @Spy
     private MyConnection myConnection;
 
+    @BeforeAll
+    static void initAll() {
+        LOGGER.info("volani initAll()");
+    }
 
     /**
      * vygeneruje data pro resultset s 1 radkem
@@ -101,8 +105,6 @@ public class MyConnectionTest {
     public void beforeTest() {
         MockitoAnnotations.initMocks(this);
         statementList = new ArrayList<>(Arrays.asList(initFirstRowsRS(), init2RowsRS()));
-        myConnection.setRs(resultSet);
-        myConnection.setStatement(statement);
     }
 
 
@@ -115,15 +117,15 @@ public class MyConnectionTest {
         idx = new AtomicInteger(0);
         final AtomicInteger idStatements = new AtomicInteger(0);
         MockRowRS resultRows = new MockRowRS();
-        doAnswer(new Answer<ResultSet>() {
-            @Override
-            public ResultSet answer(InvocationOnMock invocation) throws Throwable {
-                int index = idStatements.getAndIncrement();
-                actualResultRowListOfMap = statementList.get(index);
-                idx = new AtomicInteger(0);
-                return resultSet;
-            }
+        // metoda, ktera mockuje, tedy na základě volani metody executeQuery
+        // vrati mock objekt resultSet
+        doAnswer((i) -> {
+            int index = idStatements.getAndIncrement();
+            actualResultRowListOfMap = statementList.get(index);
+            idx = new AtomicInteger(0);
+            return resultSet;
         }).when(statement).executeQuery(anyString());
+        // prepina radky tabulky v danem resultSetu
         doAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
@@ -136,13 +138,13 @@ public class MyConnectionTest {
                 return true;
             }
         }).when(resultSet).next();
+        // pri volani vraci v danem zaznamu hodnotu na zaklade klice
         doAnswer(new Answer<String>() {
-
             @Override
             public String answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();
-                String idx = (String) args[0];
-                return resultRows.getColumn(idx);
+                String key = (String) args[0];
+                return resultRows.getColumn(key);
             }
         }).when(resultSet).getString(anyString());
     }
@@ -182,10 +184,10 @@ public class MyConnectionTest {
      *
      * @throws SQLException the sql exception
      */
+    @DisplayName("testmain")
     @Test
     public void testMain() throws SQLException {
         beforeMethod();
-        boolean result = myConnection.doAction();
-        org.junit.jupiter.api.Assertions.assertEquals(true,result);
+        org.junit.jupiter.api.Assertions.assertEquals(true, myConnection.doAction());
     }
 }

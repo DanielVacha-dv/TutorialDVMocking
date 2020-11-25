@@ -10,17 +10,9 @@ import java.util.logging.Logger;
 public class MyConnection {
 
     private static final Logger LOGGER=Logger.getLogger(MyConnection.class.getName());
-    public  ResultSet rs;
+    private   ResultSet rs;
 
     public Statement statement;
-
-    public void setRs(ResultSet rs) {
-        this.rs = rs;
-    }
-
-    public void setStatement(Statement statement) {
-        this.statement = statement;
-    }
 
    boolean   doAction() {
         try {

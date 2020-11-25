@@ -23,7 +23,7 @@ public class MathApplicationTest {
 
     Logger LOGGER = Logger.getLogger(MathApplicationTest.class.getName());
     /**
-     * Novy zpusob s vyuzitim Rule objektu
+     *  zpusob s vyuzitim Rule objektu
      * The constant rule.
      * Pole s poznámkami musí být veřejná, nestatická a podtypy TestRule nebo MethodRule
      */
@@ -33,8 +33,8 @@ public class MathApplicationTest {
     /**
      * The Rule 2.
      */
-//    @Rule
-//    public ConsoleOutRule rule2 = new ConsoleOutRule("di do pr");
+    @Rule
+    public ConsoleOutRule rule2 = new ConsoleOutRule("di do pr");
 
     /**
      * The Calc service.
