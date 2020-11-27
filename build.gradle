@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+//    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
 }
 
 group 'org.danes'
@@ -13,22 +13,10 @@ repositories {
 
 dependencies {
     String powermockVersion = "2.0.7";
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    implementation 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
     implementation 'org.powermock:powermock-api-mockito2:'+powermockVersion
     implementation 'org.powermock:powermock-module-junit4:'+powermockVersion
     implementation 'org.mockito:mockito-core:3.3.3'
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    testRuntime group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+//    testRuntime group: 'org.mockito', name: 'mockito-core', version: '3.3.3'
 }
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
+
